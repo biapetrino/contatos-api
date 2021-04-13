@@ -1,35 +1,31 @@
 const express = require('express');
-const{ uuid } = require('uuidv4');
-
 const server = express();
+
+const database = require('./database');
 
 server.use(express.json())
 
 contatos = [];
 
-server.get('/', function (request, response)
+server.get('/', async function (request, response)
 {
-   let nome =  request.query.nome
-    response.json(contatos);
+   const contatos = await database.read();
+   response.json(contatos);
 })
 
-server.get('/:id', function(request, response)
+/*server.get('/:id', function(request, response)
 {
     const id = request.params.id;
     const result = contatos.filter(contato => contato.id == id);
     response.json(result);
-})
+}) */
 
-    server.post('/', function(request, response)
+    server.post('/',async function(request, response)
     {
         const nome = request.body.nome;
         const telefone = request.body.telefone;
 
-        contato = {
-            id: uuid(),
-            nome, 
-            telefone
-        };
+        const result = await database.create(nome, telefone);
 
         contatos.push(contato);
 
