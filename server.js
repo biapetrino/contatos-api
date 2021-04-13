@@ -20,14 +20,12 @@ server.get('/', async function (request, response)
     response.json(result);
 }) */
 
-    server.post('/',async function(request, response)
+    server.post('/', async function(request, response)
     {
         const nome = request.body.nome;
         const telefone = request.body.telefone;
 
         const result = await database.create(nome, telefone);
-
-        contatos.push(contato);
 
         response.status(201).send();
     })
